@@ -24,6 +24,7 @@
 
 ////Header Include
 #include <wx/button.h>
+#include <wx/msgdlg.h>
 
 //Dialog Style
 #undef QRAppFrm_STYLE
@@ -43,9 +44,12 @@ class QRAppFrm : public wxFrame
 	private:
 		//GUI Control Declaration
 		wxButton *WxButton1;
-		wxFileDialog *WxFileDialog1;
-		wxButton *WxButton2;
+		wxButton *WxButton2;		
 		wxStaticBitmap *WxStaticBitmap1;
+		wxStaticBitmap *WxStaticBitmap2;
+		wxFileDialog *WxFileDialog1;
+        wxMessageDialog *WxMessageDialog1;
+		
 		
 	private:
 		enum
@@ -54,6 +58,7 @@ class QRAppFrm : public wxFrame
 			ID_WXBUTTON1 = 1001,
 			ID_WXSTATICBITMAP1 = 1002,
 			ID_WXBUTTON2 = 1003,
+			ID_WXSTATICBITMAP2 = 1004,
 			ID_DUMMY_VALUE_
 		};
 		
