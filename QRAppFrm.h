@@ -38,11 +38,13 @@ class QRAppFrm : public wxFrame
 		QRAppFrm(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("QRApp"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = QRAppFrm_STYLE);
 		virtual ~QRAppFrm();
 		void WxButton1Click(wxCommandEvent& event);
+		void WxButton2Click(wxCommandEvent& event);
 		
 	private:
 		//GUI Control Declaration
 		wxButton *WxButton1;
 		wxFileDialog *WxFileDialog1;
+		wxButton *WxButton2;
 		wxStaticBitmap *WxStaticBitmap1;
 		
 	private:
@@ -51,6 +53,7 @@ class QRAppFrm : public wxFrame
 			////GUI Enum Control ID
 			ID_WXBUTTON1 = 1001,
 			ID_WXSTATICBITMAP1 = 1002,
+			ID_WXBUTTON2 = 1003,
 			ID_DUMMY_VALUE_
 		};
 		

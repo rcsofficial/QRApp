@@ -22,6 +22,7 @@ int imgWidth;
 BEGIN_EVENT_TABLE(QRAppFrm,wxFrame)	
 	EVT_CLOSE(QRAppFrm::OnClose)
 	EVT_BUTTON(ID_WXBUTTON1,QRAppFrm::WxButton1Click)
+	EVT_BUTTON(ID_WXBUTTON2,QRAppFrm::WxButton2Click)
     END_EVENT_TABLE()
 
 /*
@@ -47,7 +48,8 @@ QRAppFrm::~QRAppFrm()
 void QRAppFrm::CreateGUIControls()
 {
 	WxButton1 = new wxButton(this, ID_WXBUTTON1, _("Choose Image"), wxPoint(225, 35), wxSize(88, 25), 0, wxDefaultValidator, _("WxButton1"));
-	WxFileDialog1 =  new wxFileDialog(this, _("Choose Image"), _(""), _(""), _("*.*"), wxFD_OPEN);
+	WxButton2 = new wxButton(this, ID_WXBUTTON2, _("Pre-Process QR"), wxPoint(225, 65), wxSize(88, 25), 0, wxDefaultValidator, _("WxButton2"));
+    WxFileDialog1 =  new wxFileDialog(this, _("Choose Image"), _(""), _(""), _("*.*"), wxFD_OPEN);	
 	WxStaticBitmap1 = new wxStaticBitmap(this, ID_WXSTATICBITMAP1, wxNullBitmap, wxPoint(9, 33), wxSize(300, 300) );
 	
 	// GUI Window Settings
@@ -68,7 +70,6 @@ void QRAppFrm::OnClose(wxCloseEvent& event)
 /*
  * Choose Image from File (WxButton1 Click)
  */
- 
 void QRAppFrm::WxButton1Click(wxCommandEvent& event)
 {    
 	WxFileDialog1->ShowModal();
@@ -102,5 +103,12 @@ void QRAppFrm::WxButton1Click(wxCommandEvent& event)
         WxStaticBitmap1->SetBitmap(imgView.Scale(imgWidth*200/imgHeight,200));
         WxStaticBitmap1->SetBitmap(imgInput.Scale(imgWidth*200/imgHeight,200));
     }
-    
+}
+
+/*
+ * Pre-Process QR
+ */
+void QRAppFrm::WxButton2Click(wxCommandEvent& event)
+{
+    //imgInput.GetRed(20,20) == 20;
 }
