@@ -26,6 +26,7 @@
 #include <wx/button.h>
 #include <wx/msgdlg.h>
 
+
 //Dialog Style
 #undef QRAppFrm_STYLE
 #define QRAppFrm_STYLE wxCAPTION | wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX
@@ -49,12 +50,12 @@ class QRAppFrm : public wxFrame
 		wxStaticBitmap *WxStaticBitmap2;
 		wxFileDialog *WxFileDialog1;
         wxMessageDialog *WxMessageDialog1;
-		
+        wxMessageDialog *WxMessageDialog2;
 		
 	private:
 		enum
 		{
-			////GUI Enum Control ID
+			//GUI Enum Control ID
 			ID_WXBUTTON1 = 1001,
 			ID_WXSTATICBITMAP1 = 1002,
 			ID_WXBUTTON2 = 1003,
@@ -65,6 +66,7 @@ class QRAppFrm : public wxFrame
 	private:
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
+		void CheckColorPattern();
 };
 
 #endif

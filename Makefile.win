@@ -1,7 +1,7 @@
 # Project: QRApp
 # Compiler: Default GCC compiler
 # Compiler Type: MingW 3
-# Makefile created by wxDev-C++ IDE 7.4.2.569 on 13/02/18 16:58
+# Makefile created by wxDev-C++ IDE 7.4.2.569 on 17/02/18 17:10
 
 WXLIBNAME = wxmsw29u
 CPP       = g++.exe
