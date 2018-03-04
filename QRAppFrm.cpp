@@ -325,8 +325,7 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
                                     }
                                     else
                                     {
-                                        // Add 0.1 more precision to get exact centers
-                                        if (weightChk*1.6 <= pixelChkCount && pixelChkCount <= weightChk*2.4)
+                                        if (weightChk*1.5 <= pixelChkCount && pixelChkCount <= weightChk*2.5)
                                         {
                                             // Store the centroid in (X,Y) alternating intervals format
                                             center.push_back(centerX);
@@ -350,16 +349,15 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
         }
         
         /*
-        Use this code to check if centers are correctly positioned
+        //Use this code to check if centers are correctly positioned
         
-        // On top of the file
         #include <fstream>
-        
-        // Leave this in this position
         ofstream output_file("./datapoints.txt");
         ostream_iterator<int> output_iterator(output_file, " ");
         copy(center.begin(), center.end(), output_iterator);
         */
+        
+        // TODO: INSERT PERSPECTIVE TRANSFORMATION HERE
         
         // Output Final Image
         if (200>=(imgHeight*200/imgWidth))
