@@ -10,7 +10,7 @@
 
 #include "QRAppFrm.h"
 #include <vector>
-#include <fstream>
+#include <numeric>
 
 bool imgState = false;
 wxImage imgInput;
@@ -122,104 +122,242 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
     if (imgState)
     {
         imgOutput.Create(imgWidth,imgHeight);
-        vector<int> pixelVector;
-        vector<int> pixelCmprsVector;
-        int pixelTemp = 1;
+        int currentPixelVal;
+        int patternState = 0;
+        int pixelCount = 0;
+        int weight = 0;
+        int centerX = 0;
+        int centerY = 0;
+        vector<int> center;
         
-        for (int heightIndex=0; heightIndex<imgHeight; heightIndex++)
+        
+        //Dynamic Allocation for 2D Array of Pixel Values
+        int** imgPixelArray = new int*[imgHeight];
+        for(int dynamicIndex = 0; dynamicIndex < imgHeight; ++dynamicIndex)
         {
-            for (int widthIndex=0; widthIndex<imgWidth; widthIndex++)
+            imgPixelArray[dynamicIndex] = new int[imgWidth];
+        }
+        
+
+        for (int heightIndex=0; heightIndex<imgHeight; ++heightIndex)
+        {
+            for (int widthIndex=0; widthIndex<imgWidth; ++widthIndex)
             {
-                // Storing RGB Value
+                // Getting RGB Values per Pixel
                 int red = (imgInput.GetRed(widthIndex,heightIndex));
-                int green =(imgInput.GetGreen(widthIndex,heightIndex));
+                int green = (imgInput.GetGreen(widthIndex,heightIndex));
                 int blue = (imgInput.GetBlue(widthIndex,heightIndex));
 
-                // Grayscaling (Formula)
+                // Grayscaling (using Formula)
                 int gray = (red * 0.2126) + (green * 0.7152) + (blue * 0.0722);
                 
-                // Binarization (Formula)
+                // Binarization Thresholding
                 if (gray < 128)
                 {
-                    // Turn Pixel to Black, Store Pixel Value in Vector as 0
+                    // Turn Pixel to Black, Set Pixel Value as 0
                     imgOutput.SetRGB(widthIndex, heightIndex, 0, 0, 0);
-                    pixelVector.push_back(0);
+                    currentPixelVal = 0;
                 }
+                
                 else
                 {
-                    // Turn Pixel to White, Store Pixel Value in Vector as 1
+                    // Turn Pixel to White, Set Pixel Value as 1
                     imgOutput.SetRGB(widthIndex, heightIndex, 255, 255, 255);
-                    pixelVector.push_back(1);
+                    currentPixelVal = 1;
                 }
-            }            
+                
+                // Store Binarized Pixel Value
+                imgPixelArray[heightIndex][widthIndex] = currentPixelVal;
+            }
         }
         
-        // Pixel Data Compression Vector
-        for (unsigned int pixelIndex = 0; pixelIndex < pixelVector.size()-1; pixelIndex++)
+        
+        // Checking if 1:1:3:1:1 pattern exists
+        for (int aryHeight=0; aryHeight<imgHeight; ++aryHeight)
         {
-            if (pixelVector.at(pixelIndex) == pixelVector.at(pixelIndex+1))
+            for (int aryWidth=0; aryWidth<imgWidth; ++aryWidth)
             {
-                pixelTemp++;
-            }
-            else if (pixelVector.at(pixelIndex) != pixelVector.at(pixelIndex+1))
-            {
-                pixelCmprsVector.push_back(pixelTemp);
-                pixelTemp = 1;
-            }
-            
-            if (pixelIndex == pixelVector.size()-2)
-            {
-                pixelCmprsVector.push_back(pixelTemp);
-                pixelTemp = 1;
-            }
-        }
-
-        // Finding Pattern
-        if (pixelCmprsVector.size() <= 6)
-        {
-            WxMessageDialog1 =  new wxMessageDialog(this, _("Image has less than 6 pixel variations, impossible to contain QR Code."), _("Error"));
-	        WxMessageDialog1->ShowModal();
-        }
-        else
-        {
-            for (unsigned int pixelCmprsIndex = 0; pixelCmprsIndex < pixelCmprsVector.size()-6; pixelCmprsIndex++)
-            {
-                int pixelCmprsA = pixelCmprsVector.at(pixelCmprsIndex);
-                int pixelCmprsB = pixelCmprsVector.at(pixelCmprsIndex+1);
-                int pixelCmprsC = pixelCmprsVector.at(pixelCmprsIndex+2);
-                int pixelCmprsD = pixelCmprsVector.at(pixelCmprsIndex+3);
-                int pixelCmprsE = pixelCmprsVector.at(pixelCmprsIndex+4);
-
-                // Finding Ratio 1:1:3:1:1
-                if(pixelCmprsA*0.90 <= pixelCmprsB && pixelCmprsB <= pixelCmprsA*1.1)
+                // Checks for continuous black patterns and set it as ratio 1
+                if (patternState == 0)
                 {
-                    if(pixelCmprsA*1.90 <= pixelCmprsC && pixelCmprsC <= pixelCmprsA*4.1)
+                    if(imgPixelArray[aryHeight][aryWidth] == 0)
                     {
-                        if(pixelCmprsA*0.90 <= pixelCmprsD && pixelCmprsD <= pixelCmprsA*1.1)
+                        pixelCount++;
+                    }
+                    else
+                    {
+                        weight = pixelCount;
+                        patternState = 1;
+                        pixelCount = 0;
+                    }
+                }
+                
+                // Checks for continuous white patterns and check if within ratio 1 range
+                else if (patternState == 1)
+                {
+                    if(imgPixelArray[aryHeight][aryWidth] == 1)
+                    {
+                        pixelCount++;
+                    }
+                    else
+                    {
+                        if (weight*0.5 <= pixelCount && pixelCount <= weight*1.5)
                         {
-                            if(pixelCmprsA*0.90 <= pixelCmprsE && pixelCmprsE <= pixelCmprsA*1.1)
+                            patternState = 2;
+                        }
+                        else
+                        {
+                            patternState = 0;
+                        }
+                        
+                        pixelCount = 0;
+                    }
+                }
+                
+                // Checks for continuous black patterns and check if within ratio 3 range
+                else if (patternState == 2)
+                {
+                    if (imgPixelArray[aryHeight][aryWidth] == 0)
+                    {
+                        pixelCount++;
+                    }
+                    else
+                    {
+                        if (weight*2.5 <= pixelCount && pixelCount <= weight*3.5)
+                        {
+                            patternState = 3;
+                        }
+                        else {
+                            patternState = 0;
+                        }
+                        
+                        pixelCount = 0;
+                    }
+                }
+                
+                // Checks for continuous white patterns and check if within ratio 1 range
+                else if (patternState == 3)
+                {
+                    if (imgPixelArray[aryHeight][aryWidth] == 1)
+                    {
+                        pixelCount++;
+                    }
+                    else
+                    {
+                        if (weight*0.5 <= pixelCount && pixelCount <= weight*1.5)
+                        {
+                            patternState = 4;
+                        }
+                        else
+                        {
+                            patternState = 0;
+                        }
+                        
+                        pixelCount = 0;
+                    }
+                }
+                
+                // Checks for continuous black patterns and check if within ratio 1 range
+                else if (patternState == 4)
+                {
+                    if (imgPixelArray[aryHeight][aryWidth] == 0)
+                    {
+                        pixelCount++;
+                    }
+                    else
+                    {
+                        if (weight*0.5 <= pixelCount && pixelCount <= weight*1.5)
+                        {   
+                            int patternStateChk = 0;
+                            int weightChk = 0;
+                            int pixelChkCount = 0;
+                            
+                            // Store Center of Detected Horizontal Finder Pattern
+                            centerX = aryWidth - weight*3.5;
+                            centerY = aryHeight;
+                            
+                            // Check if Horizontal Center is Center for Vertical Finder Pattern
+                            for (int verticalChkIndex = centerY; verticalChkIndex < imgHeight; ++verticalChkIndex)
                             {
-                                // Finding Color Combination
-                                if ((pixelVector.at(0)==0 && pixelCmprsIndex % 2 == 0) ||
-                                    (pixelVector.at(0)==1 && pixelCmprsIndex % 2 == 1))
+                                // Check for continuous black pattern below center to get vertical weight
+                                if (patternStateChk == 0)
                                 {
-                                    // TODO: Store these data points
-                                    // TODO: Verify recurrence on succeeding rows (outside this loop)
-                                    // TODO: Find centroids (outside this loop)
+                                    if (imgPixelArray[verticalChkIndex][centerX]==0)
+                                    {
+                                        pixelChkCount++;
+                                    }
+                                    else
+                                    {
+                                        weightChk = pixelChkCount;
+                                        patternStateChk = 1;
+                                        pixelChkCount = 0;
+                                    }
                                 }
-                                else
+                                
+                                // Check for continuous white pattern and compare weights
+                                else if (patternStateChk == 1)
                                 {
-                                    WxMessageDialog2 =  new wxMessageDialog(this, _("No QR Pattern Finder Detected."), _("Alert"));
-	                                WxMessageDialog2->ShowModal();
+                                    if(imgPixelArray[verticalChkIndex][centerX]==1)
+                                    {
+                                        pixelChkCount++;
+                                    }
+                                    else
+                                    {
+                                        if (weightChk*1.5 <= pixelChkCount && pixelChkCount <= weightChk*2.5)
+                                        {
+                                            patternStateChk = 2;
+                                        }
+                                        else
+                                        {
+                                            patternStateChk = 0;
+                                        }
+                                        
+                                        pixelChkCount = 0;
+                                    }
                                 }
-	                            return;
+                                
+                                // Check for continuous black pattern and compare weight
+                                else if (patternStateChk == 2)
+                                {
+                                    if(imgPixelArray[verticalChkIndex][centerX]==0)
+                                    {
+                                        pixelChkCount++;
+                                    }
+                                    else
+                                    {
+                                        // Add 0.1 more precision to get exact centers
+                                        if (weightChk*1.6 <= pixelChkCount && pixelChkCount <= weightChk*2.4)
+                                        {
+                                            // Store the centroid in (X,Y) alternating intervals format
+                                            center.push_back(centerX);
+                                            center.push_back(centerY);
+                                        }
+                                        
+                                        patternStateChk = 0;
+                                        pixelChkCount = 0;
+                                        weightChk = 0;
+                                    }
+                                }
                             }
                         }
+                        
+                        patternState = 0;
+                        pixelCount = 0;
+                        weight = 0;
                     }
                 }
             }
         }
-
+        
+        /*
+        Use this code to check if centers are correctly positioned:
+            
+        #include <fstream>
+        
+        ofstream output_file("./datapoints.txt");
+        ostream_iterator<int> output_iterator(output_file, " ");
+        copy(center.begin(), center.end(), output_iterator);
+        */
         
         // Output Final Image
         if (200>=(imgHeight*200/imgWidth))
@@ -233,18 +371,3 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
         }
     }
 }
-
-
-
-
-    //#include<fstream>
-    /*ofstream output_file("./datapoints.txt");
-    ostream_iterator<int> output_iterator(output_file, " ");
-    copy(pixelCmprsVector.begin(), pixelCmprsVector.end(), output_iterator);*/
-    
-    /*
-    if (Insert Error Here) {
-        WxMessageDialog1 =  new wxMessageDialog(this, _("Unrecognized file type. Please select supported image formats."), _("Error"));
-	    WxMessageDialog1->ShowModal();
-    }
-    */

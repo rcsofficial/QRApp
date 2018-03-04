@@ -50,7 +50,6 @@ class QRAppFrm : public wxFrame
 		wxStaticBitmap *WxStaticBitmap2;
 		wxFileDialog *WxFileDialog1;
         wxMessageDialog *WxMessageDialog1;
-        wxMessageDialog *WxMessageDialog2;
 		
 	private:
 		enum
