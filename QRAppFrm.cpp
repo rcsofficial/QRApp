@@ -272,7 +272,7 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
                             int weightChk = 0;
                             int pixelChkCount = 0;
                             
-                            // Store Center of Detected Horizontal Finder Pattern
+                            // Temporarily Store Center of Detected Horizontal Finder Pattern
                             centerX = aryWidth - weight*3.5;
                             centerY = aryHeight;
                             
@@ -350,10 +350,12 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
         }
         
         /*
-        Use this code to check if centers are correctly positioned:
-            
+        Use this code to check if centers are correctly positioned
+        
+        // On top of the file
         #include <fstream>
         
+        // Leave this in this position
         ofstream output_file("./datapoints.txt");
         ostream_iterator<int> output_iterator(output_file, " ");
         copy(center.begin(), center.end(), output_iterator);
