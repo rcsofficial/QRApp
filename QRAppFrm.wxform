@@ -1,6 +1,6 @@
 object frmNewForm: TfrmNewForm
-  Left = 14
-  Top = 6
+  Left = 8
+  Top = 8
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'QRApp'

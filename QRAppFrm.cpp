@@ -348,6 +348,7 @@ void QRAppFrm::WxButton2Click(wxCommandEvent& event)
             }
         }
         
+        
         /*
         //Use this code to check if centers are correctly positioned
         
