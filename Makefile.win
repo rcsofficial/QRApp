@@ -1,14 +1,14 @@
 # Project: QRApp
 # Compiler: Default GCC compiler
 # Compiler Type: MingW 3
-# Makefile created by wxDev-C++ IDE 7.4.2.569 on 04/03/18 18:16
+# Makefile created by wxDev-C++ IDE 7.4.2.569 on 30/03/18 21:17
 
 WXLIBNAME = wxmsw29u
 CPP       = g++.exe
 CC        = gcc.exe
 WINDRES   = "windres.exe"
-OBJ       = Objects/MingW/QRAppApp.o Objects/MingW/QRAppFrm.o Objects/MingW/QRApp_private.res
-LINKOBJ   = "Objects/MingW/QRAppApp.o" "Objects/MingW/QRAppFrm.o" Objects/MingW/QRApp_private.res
+OBJ       = Objects/MingW/QRAppApp.o Objects/MingW/QRAppFrm.o Objects/MingW/PerspectiveTransform.o Objects/MingW/QRApp_private.res
+LINKOBJ   = "Objects/MingW/QRAppApp.o" "Objects/MingW/QRAppFrm.o" "Objects/MingW/PerspectiveTransform.o" Objects/MingW/QRApp_private.res
 LIBS      = -L"C:/Program Files (x86)/Dev-Cpp/lib/wx/gcc_lib" -L"C:/Program Files (x86)/Dev-Cpp/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -mwindows -l$(WXLIBNAME) -l$(WXLIBNAME)_gl -lwxscintilla -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregexu -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lodbc32 -lopengl32  -g3 
 INCS      = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include"
 CXXINCS   = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/" -I"C:/Program Files (x86)/Dev-Cpp/include/common"
@@ -39,8 +39,11 @@ $(BIN): $(OBJ)
 Objects/MingW/QRAppApp.o: $(GLOBALDEPS) QRAppApp.cpp QRAppApp.h QRAppFrm.h
 	$(CPP) -c QRAppApp.cpp -o Objects/MingW/QRAppApp.o $(CXXFLAGS)
 
-Objects/MingW/QRAppFrm.o: $(GLOBALDEPS) QRAppFrm.cpp QRAppFrm.h
+Objects/MingW/QRAppFrm.o: $(GLOBALDEPS) QRAppFrm.cpp QRAppFrm.h PerspectiveTransform.h
 	$(CPP) -c QRAppFrm.cpp -o Objects/MingW/QRAppFrm.o $(CXXFLAGS)
+
+Objects/MingW/PerspectiveTransform.o: $(GLOBALDEPS) PerspectiveTransform.cpp PerspectiveTransform.h
+	$(CPP) -c PerspectiveTransform.cpp -o Objects/MingW/PerspectiveTransform.o $(CXXFLAGS)
 
 Objects/MingW/QRApp_private.res: Objects/MingW/QRApp_private.rc QRAppApp.rc 
 	$(WINDRES) --input-format=rc -o Objects/MingW/QRApp_private.res $(RCINCS) Objects/MingW/QRAPP_~1.RC -O coff

@@ -14,13 +14,13 @@ IMPLEMENT_APP(QRAppFrmApp)
 
 bool QRAppFrmApp::OnInit()
 {
-    QRAppFrm* frame = new QRAppFrm(NULL);
-    SetTopWindow(frame);
-    frame->Show();
-    return true;
+  QRAppFrm* frame = new QRAppFrm(NULL);
+  SetTopWindow(frame);
+  frame->Show();
+  return true;
 }
  
 int QRAppFrmApp::OnExit()
 {
-	return 0;
+  return 0;
 }

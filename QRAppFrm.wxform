@@ -4,8 +4,8 @@ object frmNewForm: TfrmNewForm
   AutoScroll = False
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'QRApp'
-  ClientHeight = 291
-  ClientWidth = 574
+  ClientHeight = 251
+  ClientWidth = 544
   Color = clAppWorkSpace
   OldCreateOrder = True
   PopupMenu = DesignerPopup.Owner
@@ -31,9 +31,67 @@ object frmNewForm: TfrmNewForm
   isAuimanagerAvailable = False
   PixelsPerInch = 96
   TextHeight = 15
+  object WxStaticBox1: TWxStaticBox
+    Left = 6
+    Top = 15
+    Width = 216
+    Height = 226
+    Caption = 'Input Image'
+    TabOrder = 4
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXSTATICBOX1'
+    Wx_IDValue = 1005
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = 0
+    Wx_BestSize_Width = 0
+    Wx_MinSize_Height = 0
+    Wx_MinSize_Width = 0
+    Wx_MaxSize_Height = 0
+    Wx_MaxSize_Width = 0
+    Wx_Floating_Height = 0
+    Wx_Floating_Width = 0
+    Wx_Floating_X_Pos = 0
+    Wx_Floating_Y_Pos = 0
+  end
+  object WxStaticBox2: TWxStaticBox
+    Left = 231
+    Top = 15
+    Width = 216
+    Height = 226
+    Caption = 'Processed Output'
+    TabOrder = 5
+    Wx_BGColor = clBlack
+    Wx_Class = 'wxStaticBox'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_IDName = 'ID_WXSTATICBOX2'
+    Wx_IDValue = 1006
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = 0
+    Wx_BestSize_Width = 0
+    Wx_MinSize_Height = 0
+    Wx_MinSize_Width = 0
+    Wx_MaxSize_Height = 0
+    Wx_MaxSize_Width = 0
+    Wx_Floating_Height = 0
+    Wx_Floating_Width = 0
+    Wx_Floating_X_Pos = 0
+    Wx_Floating_Y_Pos = 0
+  end
   object WxButton1: TWxButton
-    Left = 460
-    Top = 35
+    Left = 455
+    Top = 30
     Width = 88
     Height = 25
     Caption = 'Upload Image'
@@ -70,7 +128,7 @@ object frmNewForm: TfrmNewForm
     Wx_Floating_Y_Pos = 0
   end
   object WxStaticBitmap1: TWxStaticBitmap
-    Left = 9
+    Left = 15
     Top = 33
     Width = 200
     Height = 200
@@ -81,6 +139,7 @@ object frmNewForm: TfrmNewForm
     Wx_GeneralStyle = []
     Wx_IDName = 'ID_WXSTATICBITMAP1'
     Wx_IDValue = 1002
+    InvisibleBGColorString = 'DEF:'
     Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
     Wx_Aui_Dockable_Direction = []
     Wx_Aui_Pane_Style = []
@@ -97,8 +156,8 @@ object frmNewForm: TfrmNewForm
     Wx_Floating_Y_Pos = 0
   end
   object WxButton2: TWxButton
-    Left = 460
-    Top = 65
+    Left = 455
+    Top = 60
     Width = 88
     Height = 25
     Caption = 'Pre-Process QR'
@@ -133,7 +192,7 @@ object frmNewForm: TfrmNewForm
     Wx_Floating_Y_Pos = 0
   end
   object WxStaticBitmap2: TWxStaticBitmap
-    Left = 224
+    Left = 240
     Top = 33
     Width = 200
     Height = 200
@@ -143,6 +202,42 @@ object frmNewForm: TfrmNewForm
     Wx_GeneralStyle = []
     Wx_IDName = 'ID_WXSTATICBITMAP2'
     Wx_IDValue = 1004
+    InvisibleBGColorString = 'DEF:'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = 0
+    Wx_BestSize_Width = 0
+    Wx_MinSize_Height = 0
+    Wx_MinSize_Width = 0
+    Wx_MaxSize_Height = 0
+    Wx_MaxSize_Width = 0
+    Wx_Floating_Height = 0
+    Wx_Floating_Width = 0
+    Wx_Floating_X_Pos = 0
+    Wx_Floating_Y_Pos = 0
+  end
+  object WxButton3: TWxButton
+    Left = 455
+    Top = 90
+    Width = 88
+    Height = 25
+    Caption = 'Save Output'
+    TabOrder = 6
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON3'
+    Wx_IDValue = 1007
     Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
     Wx_Aui_Dockable_Direction = []
     Wx_Aui_Pane_Style = []
